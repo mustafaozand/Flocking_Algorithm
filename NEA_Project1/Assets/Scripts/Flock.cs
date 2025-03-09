@@ -4,15 +4,9 @@ using UnityEngine;
 
 public class Flock : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    private List<FlockAgent> flockAgents;
+    private float spawnRadius;
+    
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+
 }

@@ -4,15 +4,28 @@ using UnityEngine;
 
 public class FlockAgent : MonoBehaviour
 {
-    // Start is called before the first frame update
+    private Flock theFlock;
+    public Flock TheFlock
+    {
+        get { return theFlock; }
+    }
+    
+    private float agentRadius;
+    private Vector2 agentPosition;
+    private Collider2D agentCollider;
+
+
+    void Awake()
+    {
+        Vector2 agentPosition = transform.position; 
+    }
     void Start()
     {
-        
+        agentCollider = GetComponent<Collider2D>();
     }
 
-    // Update is called once per frame
-    void Update()
+    public void Initialize(Flock flock)
     {
-        
+        theFlock = flock; 
     }
 }
