@@ -2,15 +2,15 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class FlockAgent : MonoBehaviour
+public class SchoolAgent : MonoBehaviour
 {
-    private Flock theFlock;
-    public Flock TheFlock
+    private School theSchool;
+    public School TheSchool
     {
-        get { return theFlock; }
+        get { return theSchool; }
     }
     
-    private float agentRadius;
+    [Range(1f, 10f)] public float agentRadius;
     private Vector2 agentPosition;
     private Collider2D agentCollider;
 
@@ -24,8 +24,8 @@ public class FlockAgent : MonoBehaviour
         agentCollider = GetComponent<Collider2D>();
     }
 
-    public void Initialize(Flock flock)
+    public void Initialize(School school)
     {
-        theFlock = flock; 
+        theSchool = school; 
     }
 }
