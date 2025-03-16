@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Vector3 = System.Numerics.Vector3;
 
 public class SchoolAgent : MonoBehaviour
 {
@@ -10,7 +11,7 @@ public class SchoolAgent : MonoBehaviour
         get { return theSchool; }
     }
     
-    [Range(1f, 10f)] public float agentRadius;
+    [Range(1f, 10f)] public float agentRadius = 1.5f;
     private Vector2 agentPosition;
     private Collider2D agentCollider;
 
@@ -28,4 +29,15 @@ public class SchoolAgent : MonoBehaviour
     {
         theSchool = school; 
     }
+
+    public void Move(Vector2 velocity)
+    {
+        if (velocity != Vector2.zero) // Prevents errors when velocity is zero
+        {
+            transform.up = velocity.normalized; // Set direction
+        }
+    
+        transform.position += (UnityEngine.Vector3)(velocity) * Time.deltaTime;
+    }
+    
 }
