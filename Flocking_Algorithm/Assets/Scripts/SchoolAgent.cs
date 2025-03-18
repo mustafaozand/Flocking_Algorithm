@@ -22,7 +22,7 @@ public class SchoolAgent : MonoBehaviour
     }
     void Start()
     {
-        agentCollider = GetComponent<Collider2D>();
+        agentCollider = GetComponent<CircleCollider2D>();
     }
 
     public void Initialize(School school)
@@ -32,9 +32,9 @@ public class SchoolAgent : MonoBehaviour
 
     public void Move(Vector2 velocity)
     {
-        if (velocity != Vector2.zero) // Prevents errors when velocity is zero
+        if (velocity != Vector2.zero) // This if statement will prevent errors when velocity is zero.
         {
-            transform.up = velocity.normalized; // Set direction
+            transform.up = velocity.normalized; // Normalises to set the direction, back to original
         }
     
         transform.position += (UnityEngine.Vector3)(velocity) * Time.deltaTime;

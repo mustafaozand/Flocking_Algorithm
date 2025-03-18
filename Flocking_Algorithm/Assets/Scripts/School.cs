@@ -8,7 +8,7 @@ using Random = UnityEngine.Random;
 public class School : MonoBehaviour
 {
     private List<SchoolAgent> schoolAgents = new List<SchoolAgent>();
-    public float spawnRadius;
+    public float spawnRadius = 10;
     [FormerlySerializedAs("agent")] public SchoolAgent agentPrefab;
     public SchoolBehaviour behaviour;
 
@@ -28,10 +28,11 @@ public class School : MonoBehaviour
     {
         for (int boid = 0; boid < populationSize; boid++)
         {
+            // My flock agents are instantiated into my scene, within my given spawnRadius, at a random location, then these are added to a list of school agents
             SchoolAgent newBoid = Instantiate(
                 agentPrefab,
-                Random.insideUnitCircle * populationSize,
-                Quaternion.Euler(Vector3.forward * Random.Range(0f, 360f)),
+                Random.insideUnitCircle * spawnRadius,
+                Quaternion.Euler(Vector3.forward * Random.Range(0f, 360f)), // Rotation at which each flock agent spawns is random.
                 transform);
 
             newBoid.name = "Agent" + boid;
@@ -39,7 +40,8 @@ public class School : MonoBehaviour
             schoolAgents.Add(newBoid);
         }
     }
-
+    
+    // Iterates through the list of flock agent objects and determines if the agent is nearby (is the offset of the neighbouring agent within the radius of the current agent.
     public List<Transform> GetNearbyObjects(SchoolAgent currentAgent)
     {
         List<Transform> context = new List<Transform>();
@@ -69,18 +71,23 @@ public class School : MonoBehaviour
         foreach (SchoolAgent agent in schoolAgents)
         {
             List<Transform> context = GetNearbyObjects(agent);
+            Vector2 move = behaviour.CalculateMove(agentPrefab, context, this);
+            move *= driveFactor;
+            
+            // Checks if the velocity has exceeded the maxSpeed, if so the speed is normalised then multiplied to my maxSpeed
+            if (move.sqrMagnitude > squareMaxSpeed)
+            {
+                move = move.normalized * maxSpeed; 
+            }
+            
+            agent.Move(move);
+            
+            // testing
+            
+            // agent.GetComponentInChildren<SpriteRenderer>().color =
+            //     Color.Lerp(Color.white, Color.red, context.Count / 6f);
+                
 
-            agent.GetComponentInChildren<SpriteRenderer>().color =
-                Color.Lerp(Color.white, Color.red, context.Count / 6f);
-            //Vector2 velocity = behaviour.CalculateMove(agent, context, this);
-            //velocity *= driveFactor;
-
-            //if (velocity.sqrMagnitude > squareMaxSpeed)
-            //{
-            // velocity = velocity.normalized * maxSpeed; 
-            // }
-
-            //agent.Move(velocity);
         }
     }
     
